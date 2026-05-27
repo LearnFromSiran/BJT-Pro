@@ -1,0 +1,52 @@
+# Dependencies
+node_modules/
+
+# Expo
+.expo/
+.webpack/
+dist/
+
+# Native
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# Metro
+.metro-health-check*
+
+# Debug
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# macOS
+.DS_Store
+
+# iOS
+.build/
+*.xcworkspace
+!*.xcworkspace
+*.xcuserstate
+ios/.xcode.env.local
+
+# Android
+/android/app/debug
+*.hprof
+*.iml
+captures/
+*.jks
+cxx/
+.externalNativeBuild
+.cxx/
+
+# TypeScript
+*.tsbuildinfo
+
+# Testing
+/coverage
+
+# Temporary files
+npm-debug.log*
