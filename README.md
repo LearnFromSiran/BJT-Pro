@@ -16,10 +16,10 @@ BJT Pro is a comprehensive mobile application designed to help learners master B
 
 ## Tech Stack
 
-- **Frontend**: React Native with Expo
-- **Language**: JavaScript / TypeScript
-- **State Management**: React Context / Redux
-- **Navigation**: React Navigation
+- **Frontend**: React Native (0.76) with Expo SDK 52
+- **Language**: JavaScript
+- **Navigation**: Expo Router (file-based)
+- **Design system**: Custom theme (`src/theme`)
 
 ## Getting Started
 
@@ -56,17 +56,28 @@ npx expo start
 
 ```
 BJT-Pro/
-├── App.js
-├── app.json
-├── package.json
+├── app/                  # Expo Router screens (file-based routing)
+│   ├── _layout.js        # Root stack navigator
+│   ├── index.js          # Home dashboard
+│   ├── keigo.js          # Keigo Mastery
+│   ├── mock-test.js      # Interactive BJT mock test
+│   ├── business.js       # Business communication templates
+│   └── culture.js        # Cultural context
 ├── src/
-│   ├── components/
-│   ├── screens/
-│   ├── navigation/
-│   └── utils/
-├── assets/
+│   ├── components/       # Reusable UI (Card, ScreenHeader)
+│   ├── data/            # Learning content
+│   └── theme/           # Design system (colors, spacing, typography)
+├── assets/              # Icon, splash, adaptive icon, favicon
+├── app.json            # Expo app config
+├── eas.json            # EAS build/submit profiles
+├── DEPLOYMENT.md       # Android build & Play Store guide
 └── README.md
 ```
+
+## Deployment
+
+See **[DEPLOYMENT.md](./DEPLOYMENT.md)** for the full Android build and Google
+Play publishing guide (signed AAB/APK, keystore, EAS, and manual steps).
 
 ## License
 
