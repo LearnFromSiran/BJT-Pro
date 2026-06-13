@@ -50,3 +50,18 @@ cxx/
 
 # Temporary files
 npm-debug.log*
+
+# Signing credentials — NEVER commit
+credentials/
+*.keystore
+play-service-account.json
+google-services.json
+
+# Generated native projects (CNG / expo prebuild)
+/android
+/ios
+
+# Build artifacts & secrets (delivered out-of-band)
+deliverables/
+*.aab
+*.apk

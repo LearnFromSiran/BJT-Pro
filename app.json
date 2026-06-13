@@ -5,11 +5,13 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "scheme": "bjtpro",
+    "userInterfaceStyle": "dark",
+    "backgroundColor": "#0E1124",
     "splash": {
       "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "resizeMode": "cover",
+      "backgroundColor": "#0E1124"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -20,20 +22,31 @@
       "buildNumber": "1"
     },
     "android": {
+      "package": "com.learnfromsiran.bjtpro",
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#0E1124"
       },
-      "package": "com.learnfromsiran.bjtpro"
+      "permissions": []
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro",
+      "output": "static"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-asset",
+      "expo-font"
+    ],
+    "experiments": {
+      "typedRoutes": false
     },
     "extra": {
       "eas": {
-        "projectId": "bjt-pro-project"
+        "projectId": "00000000-0000-0000-0000-000000000000"
       }
-    },
-    "plugins": []
+    }
   }
 }
