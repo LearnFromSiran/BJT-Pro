@@ -1,5 +1,10 @@
 # BJT Pro — Japanese Letter → Nepali Explainer
 
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FLearnFromSiran%2FBJT-Pro&env=OPENAI_API_KEY,GOOGLE_VISION_API_KEY&envDescription=Keys%20for%20OCR%20(Google%20Vision)%20and%20AI%20(OpenAI)&envLink=https%3A%2F%2Fgithub.com%2FLearnFromSiran%2FBJT-Pro%2Fblob%2Fmain%2F.env.example&project-name=bjt-pro&repository-name=bjt-pro)
+
+> **Deploy a live, shareable app:** see [DEPLOY.md](./DEPLOY.md) for step-by-step
+> Vercel setup. The app also runs in **demo mode** with no keys at all.
+
 Upload a photo of a Japanese letter and get, in under a minute:
 
 - **What it means** in plain Nepali (or Japanese / English)
