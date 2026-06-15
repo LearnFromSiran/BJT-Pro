@@ -1,77 +1,115 @@
-# BJT-Pro
+# BJT Pro — Japanese Letter → Nepali Explainer
 
-BJT Pro - Business Japanese Language Learning App
+Upload a photo of a Japanese letter and get, in under a minute:
 
-## Overview
+- **What it means** in plain Nepali (or Japanese / English)
+- **What you must do** — concrete action items
+- **By when** — extracted deadlines
+- **What happens if ignored** — risk flags
+- **An optional polite Japanese reply** you can copy and send
 
-BJT Pro is a comprehensive mobile application designed to help learners master Business Japanese, prepare for the Business Japanese Proficiency Test (BJT), and develop professional communication skills for the Japanese corporate workplace.
+Built for the ~300k Nepali residents in Japan who can manage daily life but
+struggle with dense, time-sensitive official mail (residence tax, national
+health insurance, pension, immigration, school/daycare, utilities).
 
-## Features
+> ⚠️ Not legal advice. The app is designed to be **cautious, not magical** — it
+> always shows a confidence score, highlights uncertainty, surfaces the original
+> Japanese source fields, and escalates risky cases to human review.
 
-- **Keigo Mastery** - Learn Sonkeigo (respectful), Kenjougo (humble), and Teineigo (polite) forms
-- **BJT Mock Tests** - Practice questions modeled after the actual BJT exam
-- **Business Communication** - Templates for emails, phone calls, and meetings
-- **Cultural Context** - Japanese corporate etiquette and business culture lessons
-- **Progress Tracking** - Monitor your learning journey and test scores
+## Tech stack
 
-## Tech Stack
+| Layer | Choice |
+|---|---|
+| Web app | Next.js 14 (App Router) + TypeScript + Tailwind, phone-first |
+| OCR | Google Cloud Vision `DOCUMENT_TEXT_DETECTION` (ja/ne hints) |
+| AI pipeline | OpenAI — classify → extract → explain → reply (strict JSON) |
+| Confidence | Deterministic + model-derived blend with rule validation |
+| Data (prod) | Supabase (Postgres + Auth + Storage + RLS), Tokyo region |
+| History (MVP) | Browser localStorage (no backend required to run) |
 
-- **Frontend**: React Native with Expo
-- **Language**: JavaScript / TypeScript
-- **State Management**: React Context / Redux
-- **Navigation**: React Navigation
+The pipeline is a small, inspectable sequence (not one opaque prompt):
 
-## Getting Started
-
-### Prerequisites
-
-- Node.js (v18 or higher)
-- npm or yarn
-- Expo CLI
-
-### Installation
-
-1. Clone the repository:
-
-```bash
-git clone https://github.com/LearnFromSiran/BJT-Pro.git
-cd BJT-Pro
+```
+Upload → quality/downscale → OCR → classify → extract (grounded facts)
+       → explain (Nepali) → rule validate → confidence score → result UI
+                                              ↘ retake / human review
 ```
 
-2. Install dependencies:
+## Quick start
 
 ```bash
 npm install
+cp .env.example .env.local   # optional — app runs in DEMO MODE without keys
+npm run dev                  # http://localhost:3000
 ```
 
-3. Start the development server:
+### Demo mode (zero config)
 
-```bash
-npx expo start
+With **no API keys**, the app runs in demo mode: tap **"Try a sample letter"**
+on the home screen to see the full flow (classification, Nepali explanation,
+deadline/amount extraction, confidence, reply draft) on synthetic letters
+modeled on real Japanese notice types.
+
+### Live mode
+
+Add keys to `.env.local` to enable real OCR + AI on your own photos:
+
+```
+OPENAI_API_KEY=sk-...
+GOOGLE_VISION_API_KEY=...
 ```
 
-4. Run on your device or emulator
+Optionally add Supabase keys (`NEXT_PUBLIC_SUPABASE_URL`, etc.) and apply
+`supabase/migrations/0001_init.sql` to enable accounts, server-side storage,
+and the human-review queue with Row Level Security.
 
-## Project Structure
+## Project structure
 
 ```
-BJT-Pro/
-├── App.js
-├── app.json
-├── package.json
-├── src/
-│   ├── components/
-│   ├── screens/
-│   ├── navigation/
-│   └── utils/
-├── assets/
-└── README.md
+src/
+  app/
+    page.tsx              # screen state machine (welcome→review→…→result)
+    layout.tsx, globals.css
+    api/
+      analyze/route.ts    # OCR → classify → extract → explain → confidence
+      reply-draft/route.ts
+      human-review/route.ts
+      config/route.ts     # tells client if demo mode is active
+  components/              # Welcome, Review, Processing, Result, Reply, History…
+  lib/
+    pipeline.ts           # live + demo orchestration
+    ocr.ts                # Google Vision adapter
+    openaiClient.ts       # OpenAI JSON-mode helper
+    prompts.ts            # classify / extract / explain / reply templates
+    schemas.ts            # zod validation of LLM JSON
+    confidence.ts         # weighted confidence + rule validation
+    extractHeuristics.ts  # regex dates (令和) + amounts (円)
+    demo.ts               # synthetic sample letters + ideal outputs
+    docTypes.ts, i18n.ts, types.ts, historyStore.ts
+supabase/migrations/0001_init.sql   # schema + RLS + storage policies
 ```
+
+## Confidence model
+
+```
+overall = 0.35*ocr + 0.20*classification + 0.20*extraction_completeness
+        + 0.15*rule_validation + 0.10*self_consistency
+```
+
+- **Green** (≥0.85) — show normally
+- **Amber** (0.65–0.84) — show with "verify Japanese source" banner
+- **Red** (<0.65) — recommend retake or human review
+- A normally-deadline-bearing document with **no detected deadline** is forced
+  to at least Amber and never claims a date it didn't find.
+
+## Privacy
+
+Privacy-first per Japan's APPI: explicit upload consent, short default
+retention, no storage of original images in the MVP (history keeps only the
+derived result locally), and a one-tap delete in History. Disclose cloud/AI
+subprocessors before broad launch and get a short legal review of consent and
+overseas-transfer wording.
 
 ## License
 
-MIT License
-
-## Author
-
-LearnFromSiran
+MIT — Author: LearnFromSiran
