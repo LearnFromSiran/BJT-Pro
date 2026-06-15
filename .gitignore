@@ -1,46 +1,30 @@
 # Dependencies
 node_modules/
+.pnp
+.pnp.js
 
-# Expo
-.expo/
-.webpack/
+# Next.js
+/.next/
+/out/
+/build
+next-env.d.ts
+
+# Production
 dist/
 
-# Native
-*.orig.*
-*.jks
-*.p8
-*.p12
-*.key
-*.mobileprovision
-
-# Metro
-.metro-health-check*
+# Environment
+.env
+.env.local
+.env*.local
 
 # Debug
 npm-debug.*
 yarn-debug.*
 yarn-error.*
+npm-debug.log*
 
 # macOS
 .DS_Store
-
-# iOS
-.build/
-*.xcworkspace
-!*.xcworkspace
-*.xcuserstate
-ios/.xcode.env.local
-
-# Android
-/android/app/debug
-*.hprof
-*.iml
-captures/
-*.jks
-cxx/
-.externalNativeBuild
-.cxx/
 
 # TypeScript
 *.tsbuildinfo
@@ -48,5 +32,6 @@ cxx/
 # Testing
 /coverage
 
-# Temporary files
-npm-debug.log*
+# Editor
+.vscode/
+.idea/
